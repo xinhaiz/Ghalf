@@ -11,21 +11,21 @@ class ControllerAbstract {
      *
      * @var \Ghalf\Interfaces\View
      */
-    protected $_view       = null;
+    protected $_view = null;
 
     /**
      * 基础请求实例
      *
      * @var \Ghalf\RequestAbstract
      */
-    private $_request    = null;
+    private $_request = null;
 
     /**
      * 基础资源实例
      *
      * @var \Ghalf\ResponseAbstract
      */
-    private $_response   = null;
+    private $_response = null;
 
     /**
      * 调用参数
@@ -45,7 +45,7 @@ class ControllerAbstract {
         $this->_response = $response;
         $this->_request  = $request;
 
-        if(!empty($invokeArgs)){
+        if (!empty($invokeArgs)) {
             $this->_invokeArgs = $invokeArgs;
         }
     }
@@ -53,19 +53,23 @@ class ControllerAbstract {
     /**
      * 每个 Action 执行前处理
      */
-    public function init() {}
+    public function init() {
+
+    }
 
     /**
      * 处理View相关
      */
-    public function initView() {}
+    public function initView() {
+
+    }
 
     /**
      * 调用参数
      *
      * @return array
      */
-    public function getInvokeArg(){
+    public function getInvokeArg() {
         return $this->_invokeArgs;
     }
 
@@ -122,7 +126,7 @@ class ControllerAbstract {
      *
      * @return \Ghalf\ResponseAbstract
      */
-    public function getResponse(){
+    public function getResponse() {
         return $this->_response;
     }
 
@@ -163,7 +167,7 @@ class ControllerAbstract {
         $that   = $this->_request;
         $params = [];
 
-        if($num > 4){
+        if ($num > 4) {
             return false;
         }
 
@@ -173,18 +177,18 @@ class ControllerAbstract {
 
         $last = array_pop($args);
 
-        if(is_array($last)){
+        if (is_array($last)) {
             $params = $last;
-            $a = array_pop($args);
-        }else{
+            $a      = array_pop($args);
+        } else {
             $a = $last;
         }
 
-        if($num > 1){
-            if($num > 2){
+        if ($num > 1) {
+            if ($num > 2) {
                 $c = array_pop($args);
                 $m = array_pop($args);
-            }else{
+            } else {
                 $c = array_pop($args);
             }
         }
@@ -205,7 +209,7 @@ class ControllerAbstract {
      * @param int $http_code
      * @return boolean
      */
-    public function redirect($url, $http_code = HttpCode::HTTP_SUCCESS) {
+    public function redirect($url, $http_code = HttpCode::HTTP_MOVED_PERMNENTLY) {
         header('Location: ' . $url, false, $http_code);
 
         return true;
