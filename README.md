@@ -1,4 +1,4 @@
-## Ghalf v0.8.0
+## Ghalf v0.8.0 (Beta)
 - 参考Yaf以纯PHP实现的PHP框架
 
 ## Yaf
