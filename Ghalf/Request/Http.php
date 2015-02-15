@@ -23,7 +23,18 @@ final class Http extends \Ghalf\RequestAbstract {
                 $request_uri = substr($request_uri, 0, $index);
             }
 
-            $request_uri = str_replace('//', '', $request_uri);
+            $request_uri  = str_replace('//', '', $request_uri);
+            $globalConfig = \Ghalf\Register::get(\Ghalf\Consts::GC);
+            
+            if($globalConfig instanceof \Ghalf\GlobalConfig) {
+                $default = $globalConfig->getDefaultController() . $globalConfig->getExt();
+            } else {
+                $default = 'index.php';
+            }
+            
+            if(strcasecmp($request_uri, '/' . $default) === 0) {
+                $request_uri = '/';
+            }
 
             $this->setRequestUri(trim(trim($request_uri, '/')));
         }
