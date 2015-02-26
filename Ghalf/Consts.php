@@ -25,12 +25,6 @@ final class Consts {
     const ERROR_ACTION     = 'error';
 
     /**
-     * 内部约定
-     */
-    const BOOTSTRAP = 'Bootstrap';
-    const INITVIEW  = 'InitView';
-
-    /**
      * 类名后缀式
      */
     const SUFIXX_CONTROLLER = '\\%s%sController';

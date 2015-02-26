@@ -64,7 +64,7 @@ final class Application {
      */
     public function bootstrap() {
         $global = \Ghalf\Register::get(Consts::GC);
-        $boot   = Loader::getInstance()->import($global->getBootstrap() . Consts::BOOTSTRAP);
+        $boot   = Loader::getInstance()->import($global->getBootstrap() . 'Bootstrap');
 
         if ($boot === true) {
             $bootstrap = new \Bootstrap();
