@@ -7,19 +7,19 @@ class RequestAbstract {
     protected $_controller   = null;
     protected $_action       = null;
     protected $_module       = null;
-    protected $_params       = null;
     protected $_method       = null;
     protected $_base_uri     = null;
     protected $_request_uri  = '/';
     protected $_query_string = null;
     protected $_dispatched   = false;
     protected $_routed       = false;
+    protected $_params       = [];
     protected $_query        = [];
     protected $_post         = [];
 
     final public function __construct() {
         $this->_method = $this->getServer('REQUEST_METHOD');
-        $this->_query  = filter_input_array(\INPUT_GET, \FILTER_DEFAULT) ?: [];
+        $this->_params = filter_input_array(\INPUT_GET, \FILTER_DEFAULT) ?: [];
         $this->_post   = filter_input_array(\INPUT_POST, \FILTER_DEFAULT) ?: [];
         
         call_user_func_array(array($this, 'init'), func_get_args());
