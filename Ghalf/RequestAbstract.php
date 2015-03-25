@@ -22,7 +22,7 @@ class RequestAbstract {
         $this->_query  = filter_input_array(\INPUT_GET, \FILTER_DEFAULT) ?: [];
         $this->_post   = filter_input_array(\INPUT_POST, \FILTER_DEFAULT) ?: [];
         
-        $this->init();
+        call_user_func_array(array($this, 'init'), func_get_args());
     }
     
     protected function init() {}

@@ -8,9 +8,7 @@ final class Http extends \Ghalf\RequestAbstract {
     const SCHEME_HTTPS = 'https';
     const REQUEST_URL  = '%s://%s';
 
-    public function __construct() {
-        parent::__construct();
-
+    protected function init() {
         $args = func_get_args();
 
         $request_uri = (isset($args[0])) ? $args[0] : (string)$this->getServer('REQUEST_URI');

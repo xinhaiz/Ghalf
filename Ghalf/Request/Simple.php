@@ -4,9 +4,7 @@ namespace Ghalf\Request;
 
 final class Simple extends \Ghalf\RequestAbstract {
 
-    public function __construct() {
-        parent::__construct();
-
+    protected function init(){
         $args   = func_get_args();
         $num    = func_num_args();
         $params = [];
@@ -49,4 +47,5 @@ final class Simple extends \Ghalf\RequestAbstract {
             }
         }
     }
+    
 }
