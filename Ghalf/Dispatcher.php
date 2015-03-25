@@ -211,8 +211,9 @@ final class Dispatcher {
             $global  = $this->_global;
             $request = $this->getRequest();
             $action  = $request->getActionName();
-
-            $tpl = $request->getControllerName() . DS . $action . $global->getViewExt();
+            
+            $tpl = $request->getModuleName() ? $request->getModuleName() . DS : '';
+            $tpl .= $request->getControllerName() . DS . $action . $global->getViewExt();
 
             if($this->_autoFlush === true){
                 $this->_view->display($tpl);
