@@ -17,18 +17,22 @@ class RequestAbstract {
     protected $_query        = [];
     protected $_post         = [];
 
-    public function __construct() {
+    final public function __construct() {
         $this->_method = $this->getServer('REQUEST_METHOD');
         $this->_query  = filter_input_array(\INPUT_GET, \FILTER_DEFAULT) ?: [];
         $this->_post   = filter_input_array(\INPUT_POST, \FILTER_DEFAULT) ?: [];
+        
+        $this->init();
     }
+    
+    protected function init() {}
 
     /**
      * 当前控制器名称
      *
      * @return string
      */
-    public function getControllerName() {
+    final public function getControllerName() {
         return $this->_controller;
     }
 
@@ -37,7 +41,7 @@ class RequestAbstract {
      *
      * @return string
      */
-    public function getModuleName() {
+    final public function getModuleName() {
         return $this->_module;
     }
 
@@ -46,7 +50,7 @@ class RequestAbstract {
      *
      * @return string
      */
-    public function getActionName() {
+    final public function getActionName() {
         return $this->_action;
     }
 
@@ -55,7 +59,7 @@ class RequestAbstract {
      *
      * @return string
      */
-    public function setModuleName($name) {
+    final public function setModuleName($name) {
         $this->_module = ucfirst(strtolower((string)$name));
 
         return $this;
@@ -66,7 +70,7 @@ class RequestAbstract {
      *
      * @return string
      */
-    public function setControllerName($name) {
+    final public function setControllerName($name) {
         $this->_controller = ucfirst(strtolower((string) $name));
 
         return $this;
@@ -77,7 +81,7 @@ class RequestAbstract {
      *
      * @return string
      */
-    public function setActionName($name) {
+    final public function setActionName($name) {
         $this->_action = strtolower((string) $name);
 
         return $this;
@@ -90,7 +94,7 @@ class RequestAbstract {
      * @param string $default
      * @return string|number
      */
-    public function getParam($name, $default = null) {
+    final public function getParam($name, $default = null) {
         return isset($this->_params[$name]) ? $this->_params[$name] : $default;
     }
 
@@ -99,7 +103,7 @@ class RequestAbstract {
      *
      * @return string
      */
-    public function getParams() {
+    final public function getParams() {
         return $this->_params;
     }
 
@@ -110,7 +114,7 @@ class RequestAbstract {
      * @param string $value
      * @return \Ghalf\RequestAbstract
      */
-    public function setParam($name, $value) {
+    final public function setParam($name, $value) {
         $this->_params[$name] = $value;
 
         return $this;
@@ -122,7 +126,7 @@ class RequestAbstract {
      *
      * @return string
      */
-    public function getMethod() {
+    final public function getMethod() {
         return $this->_method;
     }
 
@@ -140,7 +144,7 @@ class RequestAbstract {
      *
      * @return string
      */
-    public function setRequestUri($uri) {
+    final public function setRequestUri($uri) {
         $this->_request_uri = (string) $uri;
 
         return $this;
@@ -151,7 +155,7 @@ class RequestAbstract {
      *
      * @return string
      */
-    public function getBaseUri() {
+    final public function getBaseUri() {
         return $this->_base_uri;
     }
 
@@ -160,7 +164,7 @@ class RequestAbstract {
      *
      * @return string
      */
-    public function setBaseUri($uri) {
+    final public function setBaseUri($uri) {
         $this->_base_uri = $uri;
 
         return $this;
@@ -171,7 +175,7 @@ class RequestAbstract {
      *
      * @return boolean
      */
-    public function isDispatched() {
+    final public function isDispatched() {
         return (bool) $this->_dispatched;
     }
 
@@ -181,7 +185,7 @@ class RequestAbstract {
      * @param boolean $switch
      * @return \Ghalf\RequestAbstract
      */
-    public function setDispatched($switch) {
+    final public function setDispatched($switch) {
         $this->_dispatched = (bool) $switch;
 
         return $this;
@@ -191,7 +195,7 @@ class RequestAbstract {
      * 捕获当前发生的异常对象
      *
      */
-    public function getException() {
+    final public function getException() {
 
     }
 
@@ -200,7 +204,7 @@ class RequestAbstract {
      *
      * @return boolean
      */
-    public function isRouted() {
+    final public function isRouted() {
         return (bool) $this->_routed;
     }
 
@@ -210,7 +214,7 @@ class RequestAbstract {
      * @param boolean $switch
      * @return \Ghalf\RequestAbstract
      */
-    public function setRouted($switch) {
+    final public function setRouted($switch) {
         $this->_routed = (bool) $switch;
 
         return $this;
@@ -224,7 +228,7 @@ class RequestAbstract {
      * @param string $default
      * @return string|number
      */
-    public function get($name, $default = null) {
+    final public function get($name, $default = null) {
         $result = $default;
 
         switch (true){
@@ -254,7 +258,7 @@ class RequestAbstract {
      * @param string $default
      * @return string
      */
-    public function getEnv($name, $default = null) {
+    final public function getEnv($name, $default = null) {
         return filter_input(\INPUT_ENV, $name) ?: $default;
     }
 
@@ -264,7 +268,7 @@ class RequestAbstract {
      * @param string $name
      * @return array
      */
-    public function getFiles($name) {
+    final public function getFiles($name) {
         return (isset($_FILES[$name])) ? $_FILES[$name] : [];
     }
 
@@ -274,7 +278,7 @@ class RequestAbstract {
      * @param string $name
      * @return string
      */
-    public function getCookie($name = null) {
+    final public function getCookie($name = null) {
         return $name ? filter_input(\INPUT_COOKIE, $name) : (filter_input_array(\INPUT_COOKIE, \FILTER_DEFAULT) ?: []);
     }
     
@@ -284,7 +288,7 @@ class RequestAbstract {
      * @param string $name
      * @return string
      */
-    public function getServer($name = null) {
+    final public function getServer($name = null) {
         return $name ? filter_input(\INPUT_SERVER, $name) : (filter_input_array(\INPUT_SERVER, \FILTER_DEFAULT) ?: []);
     }
 
@@ -295,7 +299,7 @@ class RequestAbstract {
      * @param string $default
      * @return string|number
      */
-    public function getPost($name, $default = null) {
+    final public function getPost($name, $default = null) {
         return (isset($this->_post[$name])) ? $this->_post[$name] : $default;
     }
 
@@ -306,7 +310,7 @@ class RequestAbstract {
      * @param string $default
      * @return string|number
      */
-    public function getQuery($name, $default = null) {
+    final public function getQuery($name, $default = null) {
         return (isset($this->_query[$name])) ? $this->_query[$name] : $default;
     }
 
@@ -315,7 +319,7 @@ class RequestAbstract {
      *
      * @return boolean
      */
-    public function isCli() {
+    final public function isCli() {
         return (bool) ($this->getServer('_') !== null && (int)$this->getServer('argc') > 0);
     }
 
@@ -324,7 +328,7 @@ class RequestAbstract {
      *
      * @return boolean
      */
-    public function isGet() {
+    final public function isGet() {
         return (bool) (0 === strcasecmp('GET', $this->_method));
     }
 
@@ -333,7 +337,7 @@ class RequestAbstract {
      *
      * @return boolean
      */
-    public function isPost() {
+    final public function isPost() {
         return (bool) (0 === strcasecmp('POST', $this->_method));
     }
 
@@ -342,7 +346,7 @@ class RequestAbstract {
      *
      * @return boolean
      */
-    public function isDelete() {
+    final public function isDelete() {
         return (bool) (0 === strcasecmp('DELETE', $this->_method));
     }
 
@@ -351,11 +355,11 @@ class RequestAbstract {
      *
      * @return boolean
      */
-    public function isHead() {
+    final public function isHead() {
         return (bool) (0 === strcasecmp('HEAD', $this->_method));
     }
 
-    public function isOptions() {
+    final public function isOptions() {
 
     }
 
@@ -364,7 +368,7 @@ class RequestAbstract {
      *
      * @return boolean
      */
-    public function isPut() {
+    final public function isPut() {
         return (bool) (0 === strcasecmp('PUT', $this->_method));
     }
 
@@ -373,7 +377,7 @@ class RequestAbstract {
      *
      * @return boolean
      */
-    public function isXMLHttpRequest() {
+    final public function isXMLHttpRequest() {
         return (bool) (0 === strcasecmp('XMLHttpRequest', $this->getServer('HTTP_X_REQUESTED_WITH')));
     }
 
