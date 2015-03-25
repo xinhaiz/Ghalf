@@ -209,7 +209,7 @@ class ControllerAbstract {
      * @param int $http_code
      * @return boolean
      */
-    public function redirect($url, $http_code = HttpCode::HTTP_MOVED_PERMNENTLY) {
+    public function redirect($url, $http_code = HttpCode::HTTP_MOVED_TEMPORARILY) {
         header('Location: ' . $url, false, $http_code);
 
         return true;

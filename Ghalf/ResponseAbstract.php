@@ -98,8 +98,4 @@ class ResponseAbstract {
     public function response(){
         echo $this->getBody();
     }
-
-    public function setRedirect($url){
-
-    }
 }
