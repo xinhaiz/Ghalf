@@ -19,14 +19,8 @@ class RequestAbstract {
 
     public function __construct() {
         $this->_method = $this->getServer('REQUEST_METHOD');
-
-        if (isset($_GET)) {
-            $this->_query = $_GET;
-        }
-
-        if (isset($_POST)) {
-            $this->_post = $_POST;
-        }
+        $this->_query  = filter_input_array(\INPUT_GET, \FILTER_DEFAULT) ?: [];
+        $this->_post   = filter_input_array(\INPUT_POST, \FILTER_DEFAULT) ?: [];
     }
 
     /**
@@ -243,11 +237,8 @@ class RequestAbstract {
             case isset($this->_query[$name]):
                 $result = $this->_query[$name];
                 break;
-            case isset($_COOKIE[$name]):
-                $result = $_COOKIE[$name];
-                break;
-            case isset($_SERVER[$name]):
-                $result = $_SERVER[$name];
+            case $name !== null:
+                $result = $this->getCookie($name) ?: $this->getServer($name);
                 break;
             default :
                 break;
@@ -264,7 +255,7 @@ class RequestAbstract {
      * @return string
      */
     public function getEnv($name, $default = null) {
-        return (isset($_ENV[$name])) ? $_ENV[$name] : $default;
+        return filter_input(\INPUT_ENV, $name) ?: $default;
     }
 
     /**
@@ -284,7 +275,17 @@ class RequestAbstract {
      * @return string
      */
     public function getCookie($name = null) {
-        return (isset($_COOKIE[$name])) ? $_COOKIE[$name] : null;
+        return $name ? filter_input(\INPUT_COOKIE, $name) : (filter_input_array(\INPUT_COOKIE, \FILTER_DEFAULT) ?: []);
+    }
+    
+    /**
+     * $_SERVER
+     *
+     * @param string $name
+     * @return string
+     */
+    public function getServer($name = null) {
+        return $name ? filter_input(\INPUT_SERVER, $name) : (filter_input_array(\INPUT_SERVER, \FILTER_DEFAULT) ?: []);
     }
 
     /**
@@ -334,16 +335,6 @@ class RequestAbstract {
      */
     public function isPost() {
         return (bool) (0 === strcasecmp('POST', $this->_method));
-    }
-
-    /**
-     * $_SERVER
-     *
-     * @param string $name
-     * @return string
-     */
-    public function getServer($name = null) {
-        return (isset($_SERVER[$name])) ? $_SERVER[$name] : null;
     }
 
     /**
