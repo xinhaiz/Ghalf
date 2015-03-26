@@ -5,7 +5,6 @@ namespace Ghalf;
 use \Ghalf\Consts;
 use \Ghalf\Exception\LoadControllerFailed;
 use \Ghalf\Exception\LoadActionFailed;
-use \Ghalf\Exception\DispatchFailed;
 
 final class Dispatcher {
 
