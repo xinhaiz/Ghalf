@@ -126,18 +126,13 @@ final class Dispatcher {
             }
 
             $this->setRequest($that);
-
             $events->onStartup('dispatch', $that);
             $this->dispatheHandler();
             $this->dispatheViewHandler();
-            $request->setDispatched(true);
             $events->onShutdown('dispatch', $that);
+            $that->setDispatched(true);
         }
-
-        if($request->isDispatched() === false){
-            throw new DispatchFailed('Dispatched failed');
-        }
-
+        
         $events->onShutdown('dispatchLoop', $request);
 
         $http = \Ghalf\Response\Http::getInstance();
