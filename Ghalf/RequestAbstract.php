@@ -18,6 +18,13 @@ class RequestAbstract {
     protected $_post         = [];
 
     final public function __construct() {
+        $global = \Ghalf\Register::get(\Ghalf\Consts::GC);
+
+        if ($global instanceof \Ghalf\GlobalConfig) {
+            $this->setModuleName($global->getDefaultModule());
+            $this->setControllerName($global->getDefaultController());
+        }
+        
         $this->_method = $this->getServer('REQUEST_METHOD');
         $this->_params = filter_input_array(\INPUT_GET, \FILTER_DEFAULT) ?: [];
         $this->_post   = filter_input_array(\INPUT_POST, \FILTER_DEFAULT) ?: [];

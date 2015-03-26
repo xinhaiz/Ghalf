@@ -8,6 +8,11 @@ final class Simple extends \Ghalf\RequestAbstract {
         $args   = func_get_args();
         $num    = func_num_args();
         $params = [];
+        
+        if($num === 1 && isset($args[0]) && is_array($args[0])) {
+            $num  = count($args[0]);
+            $args = $args[0];
+        }
 
         if($num > 4 || $num < 1){
             return false;

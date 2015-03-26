@@ -162,40 +162,9 @@ class ControllerAbstract {
      * @return \Ghalf\ControllerAbstract
      */
     public function forward() {
-        $args   = func_get_args();
-        $num    = func_num_args();
-        $that   = $this->_request;
-        $params = [];
-
-        if ($num > 4) {
-            return false;
-        }
-
-        $a = $that->getActionName();
-        $c = $that->getControllerName();
-        $m = $that->getModuleName();
-
-        $last = array_pop($args);
-
-        if (is_array($last)) {
-            $params = $last;
-            $a      = array_pop($args);
-        } else {
-            $a = $last;
-        }
-
-        if ($num > 1) {
-            if ($num > 2) {
-                $c = array_pop($args);
-                $m = array_pop($args);
-            } else {
-                $c = array_pop($args);
-            }
-        }
-
-        $request = new \Ghalf\Request\Simple($m, $c, $a, $params);
+        $request = new \Ghalf\Request\Simple(func_get_args());
         $request->setRouted(true);
-        $request->setBaseUri($that->getBaseUri());
+        $request->setBaseUri($this->_request->getBaseUri());
 
         \Ghalf\Dispatcher::getInstance()->setForward($request);
 
